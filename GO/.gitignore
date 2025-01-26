@@ -1,0 +1,32 @@
+# Go binaries
+/bin/
+/pkg/
+
+# Go workspace file
+go.work
+
+# Build output
+*.exe
+*.test
+*.out
+
+# Node.js dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# C# build outputs
+bin/
+obj/
+*.dll
+*.pdb
+
+# Visual Studio
+.vs/
+*.csproj.user
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+
