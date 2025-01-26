@@ -1,0 +1,18 @@
+# Go binaries
+/bin/
+/pkg/
+
+# Go workspace file
+go.work
+
+# Build output
+*.exe
+*.test
+*.out
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
