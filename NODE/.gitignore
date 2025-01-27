@@ -1,27 +1,25 @@
-# Go binaries
+# Archivos de go que no se deben subir al repositorio
 /bin/
 /pkg/
-
-# Go workspace file
 go.work
 
-# Build output
+# Salidas que crea para ejecutar el programa
 *.exe
 *.test
 *.out
 
-# Node.js dependencies
+# Dependencias de node que no se deben subir al repositorio
 node_modules/
 npm-debug.log
 yarn-error.log
 
-# C# build outputs
+# Salidas de compilación de C#
 bin/
 obj/
 *.dll
 *.pdb
 
-# Visual Studio
+# Archivos de Visual Studio
 .vs/
 *.csproj.user
 *.suo
