@@ -1,0 +1,30 @@
+# Archivos de go que no se deben subir al repositorio
+/bin/
+/pkg/
+go.work
+
+# Salidas que crea para ejecutar el programa
+*.exe
+*.test
+*.out
+
+# Dependencias de node que no se deben subir al repositorio
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Salidas de compilación de C#
+bin/
+obj/
+*.dll
+*.pdb
+
+# Archivos de Visual Studio
+.vs/
+*.csproj.user
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+
