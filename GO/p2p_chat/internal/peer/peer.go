@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"net"
-	
+	"os"
 )
 
 var username string;
@@ -46,18 +46,28 @@ func ConnectToPeer(address string, user string) {
 func receiveMessage(conn net.Conn) {
 	defer conn.Close()
 	reader := bufio.NewReader(conn)
-	message, _ := reader.ReadString('\n')
-	fmt.Print(message)
+	for{
+		message, _ := reader.ReadString('\n')
+		fmt.Print(message)
+	}
 }
 
 func sendMessage(conn net.Conn) {
 	writer := bufio.NewWriter(conn)
+	scanner := bufio.NewScanner(os.Stdin)
 	fmt.Println("Connected to peer. Type your message: ")
-	message := "this is the first message "
-	_, err := writer.WriteString(message)
+	for scanner.Scan() {
+	
+	message := scanner.Text()
+	
+	Message := fmt.Sprintf("%s: %s\n", username, message)
+	
+	_, err := writer.WriteString(Message)
+	
 	if err != nil {
 		fmt.Println("Error sending message: ", err.Error())
 	}
 	writer.Flush()
-}
 
+	}
+}
