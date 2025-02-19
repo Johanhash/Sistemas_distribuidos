@@ -14,6 +14,7 @@ public static class PokemonMapper{
             Name = entity.Name,
             Level = entity.Level,
             Type = entity.Type,
+            Height = entity.Height,
             Stats = new Stats{
                 Attack = entity.Attack,
                 Defense = entity.Defense,
@@ -27,6 +28,7 @@ public static class PokemonMapper{
             Level = pokemon.Level,
             Name = pokemon.Name,
             Type = pokemon.Type,
+            Height = pokemon.Height,
             Stats = new StatsDto{
                 Attack = pokemon.Stats.Attack,
                 Speed = pokemon.Stats.Speed,
