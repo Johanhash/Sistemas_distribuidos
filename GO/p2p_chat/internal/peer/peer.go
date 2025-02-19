@@ -43,6 +43,7 @@ func ConnectToPeer(address string, user string) {
 	sendMessage(conn)
 }
 
+
 func receiveMessage(conn net.Conn) {
 	defer conn.Close()
 	reader := bufio.NewReader(conn)
