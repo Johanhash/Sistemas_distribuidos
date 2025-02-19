@@ -27,4 +27,15 @@ obj/
 *.userosscache
 *.sln.docstates
 
-
+#Archivos de idea
+.idea/
+*.iml
+*.ipr
+*.iws
+*.jar
+*.war
+*.ear
+*.class
+*.log
+*.idea/workspace.xml
+*.idea/tasks.xml

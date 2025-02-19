@@ -1,4 +1,5 @@
 
+using System.Data;
 using System.Runtime.Serialization;
 
 namespace PokemonApi.Dtos
@@ -12,6 +13,7 @@ namespace PokemonApi.Dtos
         public int Defense { get; set; }
         [DataMember(Name = "Speed", Order = 3)]
         public int Speed { get; set; }
+        
 
     }
 }
