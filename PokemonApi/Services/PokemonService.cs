@@ -22,4 +22,17 @@ public class PokemonService : IPokemonService
         }
         return pokemon.ToDto();
     }
+
+    public async Task<bool> DeletePokemon(Guid id, CancellationToken cancellationToken){
+        var pokemon = await _pokemonRepository.GetByIdAsync(id, cancellationToken);
+       if(pokemon is null){
+        throw new FaultException("Pokemon not found");
+       }
+        await _pokemonRepository.DeleteAsync(pokemon, cancellationToken);
+        return true;
+    }
+
+    public async Task<PokemonResponseDto> CreatePokemon(CreatePokemonDto createPokemonDto, CancellationToken cancellationToken){
+      return null;
+    }
 }
