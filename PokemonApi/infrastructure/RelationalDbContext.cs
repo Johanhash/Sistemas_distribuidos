@@ -6,6 +6,10 @@ namespace PokemonApi.Infrastructure
     {
         public DbSet<PokemonEntity> Pokemons { get; set; }
 
+        public DbSet<HobbyEntity> Hobbies { get; set; }
+
+        public DbSet<BookEntity> Books { get; set; }
+
         public RelationalDbContext(DbContextOptions<RelationalDbContext> options) : base(options)
         {
         }
@@ -13,6 +17,7 @@ namespace PokemonApi.Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<PokemonEntity>(entity =>
             {
                 entity.HasKey(s => s.Id);
@@ -23,6 +28,21 @@ namespace PokemonApi.Infrastructure
                 entity.Property(s => s.Defense).IsRequired();
                 entity.Property(s => s.Speed).IsRequired();
                 entity.Property(s => s.Height).IsRequired();
+            });
+
+            modelBuilder.Entity<HobbyEntity>(entity =>
+            {
+                entity.HasKey(s => s.Id);
+                entity.Property(s => s.Name).IsRequired().HasMaxLength(100);
+                entity.Property(s => s.Top).IsRequired();
+            });
+
+            modelBuilder.Entity<BookEntity>(entity =>
+            {
+                entity.HasKey(s => s.Id);
+                entity.Property(s => s.Title).IsRequired().HasMaxLength(100);
+                entity.Property(s => s.Author).IsRequired().HasMaxLength(100);
+                entity.Property(s => s.PublishedDate).IsRequired();
             });
         }
     }
