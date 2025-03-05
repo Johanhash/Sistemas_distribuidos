@@ -48,6 +48,25 @@ public static class PokemonMapper{
             }   
         };   
     }
-}
 
+
+    public static Pokemon ToModel(this CreatePokemonDto pokemon){
+        return new Pokemon{
+            Id = Guid.NewGuid(),
+            Name = pokemon.Name,
+            Type = pokemon.Type,
+            Level = pokemon.Level,
+            Height = pokemon.Height,
+            Stats = pokemon.Stats.ToModel()
+        };
+    }
+
+    public static Stats ToModel(this StatsDto stats){
+        return new Stats{
+            Attack = stats.Attack,
+            Defense = stats.Defense,
+            Speed = stats.Speed
+        };
+    }
+}
 // Clean Architecture, Clean Code, clean coder
