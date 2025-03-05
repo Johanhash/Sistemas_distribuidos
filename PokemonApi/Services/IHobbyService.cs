@@ -13,5 +13,11 @@ namespace PokemonApi.Services
         
         [OperationContract]
         Task<List<HobbyResponseDto>> GetHobbyByName(string name, CancellationToken cancellationToken);
+
+        [OperationContract]
+        Task<HobbyResponseDto> CreateHobby(CreateHobbyDto createHobbyDto, CancellationToken cancellationToken);
+
+        [OperationContract]
+        Task<HobbyResponseDto> UpdateHobby(UpdateHobbyDto hobby, CancellationToken cancellationToken);
     }
 }

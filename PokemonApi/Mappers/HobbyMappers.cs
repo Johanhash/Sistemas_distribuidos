@@ -39,4 +39,14 @@ public static class HobbyMapper
             Top = entity.Top
         };
     }
+
+    public static Hobby ToModel(this CreateHobbyDto hobby)
+    {
+        return new Hobby
+        {
+            Id = new Random().Next(1, int.MaxValue),
+            Name = hobby.Name,
+            Top = hobby.Top
+        };
+    }
 }
