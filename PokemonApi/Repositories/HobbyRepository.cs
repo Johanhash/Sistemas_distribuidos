@@ -33,4 +33,16 @@ public class HobbyRepository : IHobbyRepository
             .Select(s => s.ToModel())
             .ToListAsync(cancellationToken);
     }
+
+    public async Task AddAsync(Hobby hobby, CancellationToken cancellationToken)
+    {
+        await _context.Hobbies.AddAsync(hobby.ToEntity(), cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task UpdateAsync(Hobby hobby, CancellationToken cancellationToken)
+    {
+        _context.Hobbies.Update(hobby.ToEntity());
+        await _context.SaveChangesAsync(cancellationToken);
+    }
 }
