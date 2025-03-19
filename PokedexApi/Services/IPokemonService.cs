@@ -8,5 +8,6 @@ namespace PokedexApi.Services
     {
         [OperationContract]
         Task<Pokemon?> GetPokemonByIdAsync(Guid id, CancellationToken cancellationToken);
+        Task<Pokemon?> GetPokemonByNameAsync(string name, CancellationToken cancellationToken);
     }
 }

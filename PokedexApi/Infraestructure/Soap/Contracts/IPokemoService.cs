@@ -20,5 +20,8 @@ namespace PokedexApi.Infraestructure.Soap.Contracts
 
         [OperationContract]
         Task<PokemonResponseDto> UpdatePokemon(UpdatePokemonDto pokemon, CancellationToken cancellationToken);
+
+        [OperationContract]
+        Task<PokemonResponseDto> GetPokemonByNameAsync(string name, CancellationToken cancellationToken);
     }
 }
