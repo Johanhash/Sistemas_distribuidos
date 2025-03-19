@@ -35,10 +35,14 @@ public class HobbyService : IHobbyService
         return true;
     }
 
-    public async Task<List<HobbyResponseDto>> GetHobbyByName(string name, CancellationToken cancellationToken)
+    public async Task<HobbyResponseDto> GetHobbyByName(string name, CancellationToken cancellationToken)
     {
-        var hobbies = await _hobbyRepository.GetByNameAsync(name, cancellationToken);
-        return hobbies.ConvertAll(h => h.ToDto()); // Convertimos a DTO
+        var hobby = await _hobbyRepository.GetByNameAsync(name, cancellationToken);
+        if (hobby.Count == 0)
+        {
+            throw new FaultException("Hobby not found");
+        }
+        return hobby.First().ToDto();
     }
 
     public async Task<HobbyResponseDto> CreateHobby(CreateHobbyDto createHobbyDto, CancellationToken cancellationToken)

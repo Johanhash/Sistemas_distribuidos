@@ -16,5 +16,10 @@ namespace PokedexApi.Services
         {
             return await _pokemonRepository.GetPokemonByIdAsync(id, cancellationToken);
         }
+
+        public async Task<Pokemon?> GetPokemonByNameAsync (string name, CancellationToken cancellationToken)
+        {
+            return await _pokemonRepository.GetPokemonByNameAsync(name, cancellationToken);
+        }
     }
 }

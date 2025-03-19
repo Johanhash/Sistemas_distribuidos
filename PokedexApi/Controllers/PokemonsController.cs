@@ -3,7 +3,7 @@ using PokedexApi.Services;
 using PokedexApi.Dtos;
 using PokedexApi.Mappers;
 
-namespace PokedexApi.Controllers;
+namespace PokedexApi.Controllers.PokemonsController;
 
 
 [ApiController]
@@ -26,4 +26,14 @@ public class PokemonsController : ControllerBase
         }
         return Ok(pokemon.ToDto());
     }   
+    
+    [HttpGet("Nombre/{name}")]
+    public async Task<ActionResult<PokemonResponse>> GetPokemonByName(string name, CancellationToken cancellationToken)
+    {
+        var pokemon = await _pokemonService.GetPokemonByNameAsync(name, cancellationToken);
+        if (pokemon is null){
+            return NotFound();
+        }
+        return Ok(pokemon.ToDto());
+    }
 }

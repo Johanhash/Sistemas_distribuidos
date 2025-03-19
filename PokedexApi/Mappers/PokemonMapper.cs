@@ -1,6 +1,5 @@
 using PokedexApi.Dtos;
 using PokedexApi.Models;
-using PokedexApi.Infraestructure.Soap.Dtos;
 using PokemdexApi.Infraestructure.Soap.Dtos;
 
 

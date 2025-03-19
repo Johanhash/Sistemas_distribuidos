@@ -57,4 +57,12 @@ public class PokemonService : IPokemonService
         await _pokemonRepository.UpdateAsync(pokemonToUpdate, cancellationToken);
         return pokemonToUpdate.ToDto();
     }
+
+    public async Task<PokemonResponseDto> GetPokemonByName(string name, CancellationToken cancellationToken){
+        var pokemons = await _pokemonRepository.GetByNameAsync(name, cancellationToken);
+        if(pokemons.Count == 0){
+            throw new FaultException("Pokemon not found");
+        }
+        return pokemons.First().ToDto();
+    }
 }
