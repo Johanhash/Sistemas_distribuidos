@@ -21,5 +21,10 @@ namespace PokedexApi.Services
         {
             return await _hobbyRepository.GetHobbyByNameAsync(name, cancellationToken);
         }
+
+        public async Task<bool> DeleteHobbyByIdAsync(int id, CancellationToken cancellationToken)
+        {
+            return await _hobbyRepository.DeleteHobbyByIdAsync(id, cancellationToken);
+        }
     }
 }
