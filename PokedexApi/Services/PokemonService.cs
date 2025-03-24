@@ -16,5 +16,15 @@ namespace PokedexApi.Services
         {
             return await _pokemonRepository.GetPokemonByIdAsync(id, cancellationToken);
         }
+
+        public async Task<Pokemon?> GetPokemonByNameAsync (string name, CancellationToken cancellationToken)
+        {
+            return await _pokemonRepository.GetPokemonByNameAsync(name, cancellationToken);
+        }
+
+        public async Task<bool> DeletePokemonByIdAsync(Guid id, CancellationToken cancellationToken)
+        {
+            return await _pokemonRepository.DeletePokemonByIdAsync(id, cancellationToken);
+        }
     }
 }

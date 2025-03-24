@@ -2,8 +2,7 @@ using System.ServiceModel;
 using PokedexApi.Mappers;
 using PokedexApi.Models;
 using PokedexApi.Infraestructure.Soap.Contracts;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
+
 
 namespace PokedexApi.Repositories
 {
@@ -31,6 +30,38 @@ namespace PokedexApi.Repositories
             {
                 _logger.LogWarning(ex, "Failed to get pokemon with id {id}", id);
                 return null;
+            }
+        }
+
+        public async Task<Pokemon?> GetPokemonByNameAsync(string name, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var pokemon = await _pokemonService.GetPokemonByNameAsync(name, cancellationToken);
+                return pokemon.ToModel();
+            }
+            catch (FaultException ex) when (ex.Message == "Pokemon not found")
+            {
+                _logger.LogWarning(ex, "Failed to get pokemon with name {name}", name);
+                return null;
+            }
+        }
+
+        public async Task<bool> DeletePokemonByIdAsync(Guid id, CancellationToken cancellationToken)
+        {
+            try
+            {
+                await _pokemonService.DeletePokemon(id, cancellationToken);
+                return true;
+            }
+            catch (FaultException ex) when (ex.Message == "Pokemon not found")
+            {
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to delete pokemon with id {id}", id);
+                throw;
             }
         }
     }
