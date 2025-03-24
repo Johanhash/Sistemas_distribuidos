@@ -17,7 +17,7 @@ public class PokemonsController : ControllerBase
     }
 
     //localhost/api/v1/pokemons/123433-84848
-    [HttpGet("{id}")]
+    [HttpGet("{id}")]   
     public async Task<ActionResult<PokemonResponse>> GetPokemonById(Guid id, CancellationToken cancellationToken)
     {
         var pokemon = await _pokemonService.GetPokemonByIdAsync(id, cancellationToken);
@@ -29,7 +29,7 @@ public class PokemonsController : ControllerBase
     
     //localhost/api/v1/pokemons?name=NOMBRE&variable2=VALOR&variable3=VALOR
 
-    [HttpGet]
+    [HttpGet]   
     public async Task<ActionResult<PokemonResponse>> GetPokemonByName([FromQuery] string name, CancellationToken cancellationToken)
     {
         var pokemon = await _pokemonService.GetPokemonByNameAsync(name, cancellationToken);
@@ -39,7 +39,7 @@ public class PokemonsController : ControllerBase
         return Ok(pokemon.ToDto());
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id}")]    
     public async Task<ActionResult> DeletePokemonById(Guid id, CancellationToken cancellationToken)
     {
         var deleted = await _pokemonService.DeletePokemonByIdAsync(id, cancellationToken);

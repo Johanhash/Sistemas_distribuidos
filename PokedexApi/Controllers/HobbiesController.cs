@@ -26,13 +26,23 @@ namespace PokedexApi.Controllers.HobbiesController;
             return Ok(hobby.ToDto());
         }   
         
-        [HttpGet("Nombre/{name}")]
-        public async Task<ActionResult<HobbyResponse>> GetHobbyByName(string name, CancellationToken cancellationToken)
+        [HttpGet]
+        public async Task<ActionResult<HobbyResponse>> GetHobbyByName([FromQuery] string name, CancellationToken cancellationToken)
         {
             var hobby = await _hobbyService.GetHobbyByNameAsync(name, cancellationToken);
             if (hobby is null){
                 return NotFound();
             }
             return Ok(hobby.ToDto());
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteHobbyById(int id, CancellationToken cancellationToken)
+        {
+            var deleted = await _hobbyService.DeleteHobbyByIdAsync(id, cancellationToken);
+            if(deleted){
+                return NoContent(); //204
+            }
+            return NotFound(); //404
         }
     }
