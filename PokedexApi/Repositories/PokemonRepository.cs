@@ -2,6 +2,7 @@ using System.ServiceModel;
 using PokedexApi.Mappers;
 using PokedexApi.Models;
 using PokedexApi.Infraestructure.Soap.Contracts;
+using PokedexApi.Exceptions;
 
 
 namespace PokedexApi.Repositories
@@ -64,6 +65,46 @@ namespace PokedexApi.Repositories
                 throw;
             }
         }
+    
+
+    public async Task<Pokemon> CreatePokemonAsync(Pokemon pokemon, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var pokemonCreated = await _pokemonService.CreatePokemon(pokemon.ToSoapDto(), cancellationToken);
+            return pokemonCreated.ToModel();
+        }
+        catch(FaultException ex) when (ex.Message.Contains("Pokemon"))
+        {
+            throw new PokemonValidationException(ex.Message);
+        }
+        catch(FaultException ex)
+        {
+            _logger.LogError(ex, "Error creating pokemon");
+            throw;
+        }
     }
+
+     public async Task UpdatePokemonAsync( Pokemon pokemon, CancellationToken cancellationToken)
+    {
+        try
+        {
+            await _pokemonService.UpdatePokemon( pokemon.ToUpdateSoapDto(), cancellationToken);
+        }
+        catch(FaultException ex) when (ex.Message.Contains("Pokemon not found"))
+        {
+            throw new PokemonNotFoundException();
+        }
+        catch (FaultException ex) when (ex.Message.Contains("Invalid data"))
+        {
+        throw new PokemonValidationException(ex.Message);
+        }
+        catch(FaultException ex)
+        {
+            _logger.LogError(ex, "Error updating pokemon");
+            throw;
+        }
+    }
+  }
 }
 
