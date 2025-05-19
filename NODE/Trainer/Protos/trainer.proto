@@ -8,7 +8,22 @@ import "google/protobuf/timestamp.proto";
 
 service TrainerService {
     rpc GetTrainer (TrainerByIdRequest) returns (TrainerResponse); //Unary call
+    rpc CreateTrainer (stream CreateTrainerRequest) returns (CreateTrainersResponse);
+
 }
+
+message CreateTrainersResponse{
+    int32 success_count = 1;
+    repeated TrainerResponse trainers = 2;
+}
+
+message CreateTrainerRequest{
+    string name = 1; 
+    int32 age =2;
+    google.protobuf.Timestamp birthdate = 3;
+    repeated Medals medals = 4;
+}
+
 
 message TrainerByIdRequest{
     string id = 1;
@@ -36,3 +51,4 @@ enum MedalType{
     SILVER = 2;
     BRONZE = 3;
 }
+
