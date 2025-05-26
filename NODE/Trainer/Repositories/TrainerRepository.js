@@ -13,14 +13,14 @@ async function init() {
   }
 }
 
-// GET by ID
+
 async function getById(id) {
   await init();
   const doc = await collection.findOne({ _id: new ObjectId(id) });
   return toModelFromDocument(doc);
 }
 
-// CREATE
+
 async function create(trainer) {
   await init();
   const doc = toDocumentFromModel(trainer);
@@ -28,7 +28,7 @@ async function create(trainer) {
   return toModelFromDocument(doc);
 }
 
-// GET by Name (contains)
+
 async function getByName(name) {
   await init();
   const regex = new RegExp(name, 'i');

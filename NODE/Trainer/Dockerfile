@@ -9,5 +9,5 @@ COPY . .
 
 EXPOSE 5051
 
-CMD ["node", "index.js"]
+CMD ["node", "startup.js"]
 

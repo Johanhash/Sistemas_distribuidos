@@ -3,7 +3,7 @@ const TrainerDocument = require('../Infrastructure/Documents/TrainerDocument');
 const { MedalDocument } = require('../Infrastructure/Documents/MedalDocument');
 const { Timestamp } = require('google-protobuf/google/protobuf/timestamp_pb.js');
 
-// Convierte un documento de Mongo a un modelo de dominio
+
 function toModelFromDocument(doc) {
   if (!doc) return null;
   return new Trainer({
@@ -16,7 +16,7 @@ function toModelFromDocument(doc) {
   });
 }
 
-// Convierte un modelo a un documento para guardar en Mongo
+
 function toDocumentFromModel(trainer) {
   return new TrainerDocument({
     id: trainer.id,
@@ -28,7 +28,7 @@ function toDocumentFromModel(trainer) {
   });
 }
 
-// Convierte un modelo a una respuesta gRPC (TrainerResponse)
+
 function toResponse(trainer) {
   const birthTs = Timestamp.fromDate(trainer.birthdate);
   const createdTs = Timestamp.fromDate(trainer.createdAt);
@@ -46,7 +46,7 @@ function toResponse(trainer) {
   };
 }
 
-// Convierte un CreateTrainerRequest a modelo de dominio
+
 function toModelFromGrpcRequest(request) {
   const birthdate = new Date(request.birthdate.seconds * 1000);
   return new Trainer({

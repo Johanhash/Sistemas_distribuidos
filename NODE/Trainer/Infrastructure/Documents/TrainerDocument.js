@@ -2,7 +2,7 @@ const { MedalDocument } = require('./MedalDocument');
 
 class TrainerDocument {
   constructor({ id, name, age, birthdate, createdAt, medals }) {
-    this._id = id; // Mongo ID
+    this._id = id; 
     this.name = name;
     this.age = age;
     this.birthdate = birthdate instanceof Date ? birthdate : new Date(birthdate);
