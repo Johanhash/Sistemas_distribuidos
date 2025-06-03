@@ -1,7 +1,7 @@
 const { Trainer, Medal, MedalType } = require('../Models/Trainer');
 const TrainerDocument = require('../Infrastructure/Documents/TrainerDocument');
 const { MedalDocument } = require('../Infrastructure/Documents/MedalDocument');
-const { Timestamp } = require('google-protobuf/google/protobuf/timestamp_pb.js');
+const { toGrpcTimestamp } = require('../utils/grpcTimestamp');
 
 
 function toModelFromDocument(doc) {
@@ -30,15 +30,12 @@ function toDocumentFromModel(trainer) {
 
 
 function toResponse(trainer) {
-  const birthTs = Timestamp.fromDate(trainer.birthdate);
-  const createdTs = Timestamp.fromDate(trainer.createdAt);
-
   return {
     id: trainer.id,
     name: trainer.name,
     age: trainer.age,
-    birthdate: birthTs,
-    createdAt: createdTs,
+    birthdate: toGrpcTimestamp(trainer.birthdate),
+    createdAt: toGrpcTimestamp(trainer.createdAt),
     medals: trainer.medals.map(m => ({
       region: m.region,
       type: m.type

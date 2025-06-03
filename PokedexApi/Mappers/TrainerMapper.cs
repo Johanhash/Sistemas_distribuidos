@@ -35,8 +35,8 @@ public static class TrainerMappers
             Id = trainer.Id,
             Name = trainer.Name,
             Age = trainer.Age,
-            BirthDate = trainer.Birthdate.ToDateTime(),
-            CreatedAt = trainer.CreatedAt.ToDateTime(),
+            BirthDate = trainer.Birthdate?.ToDateTime() ?? DateTime.MinValue,
+            CreatedAt = trainer.CreatedAt?.ToDateTime() ?? DateTime.MinValue,
             Medals = trainer.Medals.Select(s => new Medal
             {
                 Region = s.Region,
