@@ -2,6 +2,8 @@ using PokedexApi.Repositories;
 using PokedexApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Grpc.Net.Client;
+using PokedexApi.Infraestructure.Grpc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,16 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddScoped<IPokemonService, PokemonService>();
 builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
+builder.Services.AddScoped<ITrainerRepository, TrainerRepository>();
+builder.Services.AddScoped<ITrainerService, PokedexApi.Services.TrainerService>();
+
+builder.Services.AddSingleton(s =>
+{
+    var channel = GrpcChannel.ForAddress(builder.Configuration.GetValue<string>("TrainersApiUrl")!);
+
+    return new PokedexApi.Infraestructure.Grpc.TrainerService.TrainerServiceClient(channel);
+});
+
 builder.Services.AddScoped<IHobbyService, HobbyService>();
 builder.Services.AddScoped<IHobbyRepository, HobbyRepository>();
 

@@ -1,24 +1,66 @@
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
+using TrainerApi.Repositories;
+using TrainerApi.Mappers;
 
 namespace TrainerApi.Services;
 
 public class TrainerService : TrainerApi.TrainerService.TrainerServiceBase
 {
+    private readonly ITrainerRepository _trainerRepository;
+
+    public TrainerService(ITrainerRepository trainerRepository)
+    {
+        _trainerRepository = trainerRepository;
+    }
+
     public override async Task<TrainerResponse> GetTrainer(TrainerByIdRequest request, ServerCallContext context)
     {
-        return new TrainerResponse{
-            Id = Guid.NewGuid().ToString(),
-            Name = "Johan",
-            Age = 22,
-            Birthdate = Timestamp.FromDateTime(DateTime.UtcNow),
-            CreatedAt = Timestamp.FromDateTime(DateTime.UtcNow),
-            Medals = 
+        var trainer = await _trainerRepository.GetByIdAsync(request.Id, context.CancellationToken);
+        if (trainer is null)
+        {
+            throw new RpcException(new Status(StatusCode.NotFound, "Trainer not found"));
+        }
+
+        return trainer.ToResponse();
+    }
+
+    public override async Task<CreateTrainersResponse> CreateTrainer(IAsyncStreamReader<CreateTrainerRequest> requestStream, ServerCallContext context)
+    {
+        var createTrainers = new List<TrainerResponse>();
+        while (await requestStream.MoveNext(context.CancellationToken))
+        {
+            var request = requestStream.Current; //Trainer in pogress
+            var trainer = request.ToModel();// Trainer model
+            var trainerExists = await _trainerRepository.GetByNameAsync(trainer.Name, context.CancellationToken);
+            if (trainerExists.Any())
             {
-                new Medals{Region = "MX", Type = MedalType.Gold},
-                new Medals{Region = "JPN", Type = MedalType.Silver},
-                
-            },
+                continue;
+            }
+            var createdTrainer = await _trainerRepository.CreateAsync(trainer, context.CancellationToken);
+            createTrainers.Add(createdTrainer.ToResponse());
+        }
+
+        return new CreateTrainersResponse
+        {
+            SuccessCount = createTrainers.Count,
+            Trainers = { createTrainers }
         };
+    }
+
+    public override async Task GetTrainersByName(GetTrainersByNameRequest request, IServerStreamWriter<TrainerResponse> responseStream, ServerCallContext context)
+    {
+        
+        if (request.Name.Length <= 1)
+        {
+            throw new RpcException(new Status(StatusCode.InvalidArgument, "Name field is required"));
+        }
+        var trainers = await _trainerRepository.GetByNameAsync(request.Name, context.CancellationToken);
+
+        foreach (var trainer in trainers)
+        {
+            await responseStream.WriteAsync(trainer.ToResponse());
+            await Task.Delay(TimeSpan.FromSeconds(5), context.CancellationToken);
+        }
     }
 }
